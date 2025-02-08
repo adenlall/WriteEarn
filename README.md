@@ -1,3 +1,4 @@
+# Still in development stage
 # Blog Subscription Platform with Dynamic Pricing and Revenue Sharing
 
 ## Core Features
