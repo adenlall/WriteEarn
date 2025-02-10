@@ -7,14 +7,14 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateBlogRequest extends FormRequest
+class DeleteUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->check() && (auth()->user()->role === 'publisher'||auth()->user()->role === 'admin');
+        return auth()->check();
     }
 
     /**
@@ -25,8 +25,7 @@ class UpdateBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["sometimes","string","max:125"],
-            "description" => ["sometimes","string","max:255"],
+            'password' => ['required','string', 'min:8']
         ];
     }
 

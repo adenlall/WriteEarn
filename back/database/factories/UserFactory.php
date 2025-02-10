@@ -25,10 +25,10 @@ class UserFactory extends Factory
     {
         return [
             'name'               => $this->faker->name,
-            'username'           => $this->faker->numerify('user-#####'),
+            'username'           => $this->faker->numerify('user-###############'),
             'email'              => $this->faker->unique()->safeEmail,
             'email_verified_at'  => now(),
-            'password'           => bcrypt('password'),
+            'password'           => Hash::make('password'),
             'role'               => 'reader',
             'stripe_customer_id' => $this->faker->optional()->word,
             'stripe_account_id'  => $this->faker->optional()->word,

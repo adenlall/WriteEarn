@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
+use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 
 class BlogController extends Controller
@@ -13,7 +14,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        //
+        return BlogResource::collection(Blog::all());
     }
 
     /**
@@ -37,7 +38,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        //
+        return BlogResource::make($blog);
     }
 
     /**
@@ -53,7 +54,12 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        //
+        if ($request->user()->cannot('update', $blog)) {
+            abort(403);
+        }
+//        dd($request,$request->validated());
+        $blog->update($request->validated());
+        return BlogResource::make($blog);
     }
 
     /**

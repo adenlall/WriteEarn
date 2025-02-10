@@ -12,8 +12,27 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(\App\Http\Middleware\JsonRequestHeader::class);
+        $middleware->priority([
+            \App\Http\Middleware\JsonRequestHeader::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(
+            using: function (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $e) {
+                if (config('app.debug') !== true) {
+                    if ($e->getStatusCode() === 403) {
+                        return new \Illuminate\Http\JsonResponse([
+                            'success' => false,
+                            'message' => 'You don\'t have permission.',
+                        ], 403);
+                    }
+                    return new \Illuminate\Http\JsonResponse([
+                        'success' => false,
+                        'message' => 'Internal Error',
+                        'data' => null,
+                    ], 500);
+                }
+            }
+        );
     })->create();

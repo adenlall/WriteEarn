@@ -20,8 +20,6 @@ class BlogFactory extends Factory
         return [
             'title'           => $this->faker->sentence,
             'description'     => $this->faker->paragraph,
-            'content'         => $this->faker->paragraphs(6, true),
-            'preview_content' => $this->faker->paragraph,
             'publisher_id'    => User::factory()->publisher(),
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -13,21 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new user.
-     */
-    public function register(StoreUserRequest $request)
-    {
-        $user = $request->validated();
-        $user['password'] = Hash::make($user['password']);
-        $created = User::create($user);
-
-        return response()->json([
-            'message' => 'User registered successfully.',
-            'user' => $created,
-        ], 201);
-    }
-
     /**
      * Log in a user and return a token.
      */
@@ -64,5 +50,13 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Logged out successfully.',
         ]);
+    }
+
+    /**
+     * Display current authenticated User.
+     */
+    public function user(Request $request)
+    {
+        return UserResource::make($request->user());
     }
 }

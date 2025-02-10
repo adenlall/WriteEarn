@@ -14,7 +14,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // auth()->check() && auth()->role === 'admin';
+        return auth()->check();
     }
 
     /**
@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'username' => 'required|unique:users|min:4|max:255',
-            'role' => 'nullable|string|in:publisher,reader',
+            'role' => 'nullable|string|in:admin,publisher,reader',
         ];
     }
 

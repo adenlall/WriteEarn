@@ -5,11 +5,13 @@ namespace Database\Seeders;
 use App\Models\Blog;
 use App\Models\Offer;
 use App\Models\Payment;
+use App\Models\Post;
 use App\Models\ReaderSubscription;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        User::create([
+            "role" => "admin",
+            "name" => "adenlall",
+            "email" => "ade@lall.me",
+            "password" => Hash::make("0"),
+            "username" => "adenlall",
+        ]);
         $publishers = User::factory()->publisher()->count(10)->create();
         $readers    = User::factory()->reader()->count(50)->create();
 
@@ -26,11 +35,15 @@ class DatabaseSeeder extends Seeder
 
         $publishers->each(function ($publisher) use ($readers) {
 
-            $blogs = Blog::factory()->count(3)->create([
+            $blogs = Blog::factory()->count(2)->create([
                 'publisher_id' => $publisher->id,
             ]);
 
             $blogs->each(function ($blog) use ($readers) {
+
+                Post::factory()->count(5)->create([
+                    'blog_id' => $blog->id,
+                ]);
 
                 $plans = SubscriptionPlan::factory()->count(2)->create([
                     'blog_id' => $blog->id,
