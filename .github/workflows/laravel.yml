@@ -9,18 +9,13 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./back
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Navigate to backend directory
-      run: |
-        echo "Current directory: $(pwd)"
-        ls -la
-        cd backend
-        echo "Backend directory: $(pwd)"
-        ls -la
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -29,14 +24,9 @@ jobs:
         extensions: sqlite, mbstring, ctype, xml, tokenizer, json, dom  # Add required extensions
         coverage: none
 
-    - name: Copy .env.example to .env
+    - name: Copy .env
       run: |
-        if [ -f .env.example ]; then
-          cp .env.example .env
-        else
-          echo ".env.example not found!"
-          exit 1
-        fi
+        cp -n .env.example .env || true
 
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-interaction
