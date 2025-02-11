@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog>
+ * @extends Factory<Blog>
  */
 class BlogFactory extends Factory
 {
@@ -18,9 +19,10 @@ class BlogFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'           => $this->faker->sentence,
-            'description'     => $this->faker->paragraph,
-            'publisher_id'    => User::factory()->publisher(),
+            'title' => $this->faker->sentence,
+            'slug' => $this->faker->slug,
+            'description' => $this->faker->paragraph,
+            'user_id' => User::factory()->publisher(),
         ];
     }
 }

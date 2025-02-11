@@ -7,7 +7,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +38,7 @@ class UserController extends Controller
         $user = $request->validated();
 
         $want_to_create_admin = $user['role'] === 'admin';
-        $can_create_admin = $request->user()?->can('store', User::make($user));
+        $can_create_admin = $request->user()?->can('create', User::make($user));
 
         if ($want_to_create_admin && ! $can_create_admin) {
             abort(403);
@@ -100,21 +99,22 @@ class UserController extends Controller
         if (auth()->user()->cannot('delete', $user)) {
             abort(403);
         }
-        if (!Hash::check($request->password, $user->password)){
-            throw new HttpResponseException(response()->json([
+        if (! Hash::check($request->password, $user->password)) {
+            return response()->json([
                 'success' => false,
                 'message' => 'Verification errors',
                 'data' => [
-                    'email'=>'Wrong password.'
+                    'email' => 'Wrong password.',
                 ],
-            ], Response::HTTP_UNAUTHORIZED));
+            ], Response::HTTP_UNAUTHORIZED);
         }
 
         $user->delete();
-        throw new HttpResponseException(response()->json([
+
+        return response()->json([
             'success' => true,
             'message' => 'Account deleted successfully.',
             'data' => $user,
-        ], Response::HTTP_ACCEPTED));
+        ], Response::HTTP_ACCEPTED);
     }
 }

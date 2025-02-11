@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Blog;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BlogPolicy
 {
@@ -29,7 +28,7 @@ class BlogPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->admin() || ($user->publisher() && $user->blogs->count() < 3);
     }
 
     /**
@@ -37,7 +36,7 @@ class BlogPolicy
      */
     public function update(User $user, Blog $blog): bool
     {
-        return true;
+        return $user->admin() || ($user->publisher() && $blog->user_id === $user->id);
     }
 
     /**
@@ -45,7 +44,7 @@ class BlogPolicy
      */
     public function delete(User $user, Blog $blog): bool
     {
-        return true;
+        return $user->admin() || ($user->publisher() && $blog->user_id === $user->id);
     }
 
     /**

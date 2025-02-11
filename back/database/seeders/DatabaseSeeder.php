@@ -22,21 +22,21 @@ class DatabaseSeeder extends Seeder
     {
 
         User::create([
-            "role" => "admin",
-            "name" => "adenlall",
-            "email" => "ade@lall.me",
-            "password" => Hash::make("0"),
-            "username" => "adenlall",
+            'role' => 'admin',
+            'name' => 'adenlall',
+            'email' => 'ade@lall.me',
+            'password' => Hash::make('0'),
+            'username' => 'adenlall',
         ]);
         $publishers = User::factory()->publisher()->count(10)->create();
-        $readers    = User::factory()->reader()->count(50)->create();
+        $readers = User::factory()->reader()->count(50)->create();
 
         User::factory()->admin()->count(5)->create();
 
         $publishers->each(function ($publisher) use ($readers) {
 
             $blogs = Blog::factory()->count(2)->create([
-                'publisher_id' => $publisher->id,
+                'user_id' => $publisher->id,
             ]);
 
             $blogs->each(function ($blog) use ($readers) {
@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
                         $reader = $readers->random();
                         $subscription = ReaderSubscription::factory()->create([
                             'reader_id' => $reader->id,
-                            'plan_id'   => $plan->id,
+                            'plan_id' => $plan->id,
                         ]);
                         Payment::factory()->create([
                             'subscription_id' => $subscription->id,

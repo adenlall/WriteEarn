@@ -6,6 +6,8 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 class BlogController extends Controller
 {
@@ -30,7 +32,12 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
-        //
+        if (! Gate::inspect('create', Blog::class)->allowed()) {
+            abort(403);
+        }
+        $blog = $request->user()->blogs()->create($request->validated());
+
+        return Blogresource::make($blog);
     }
 
     /**
@@ -54,11 +61,11 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        if ($request->user()->cannot('update', $blog)) {
+        if (! Gate::inspect('update', $blog)->allowed()) {
             abort(403);
         }
-//        dd($request,$request->validated());
         $blog->update($request->validated());
+
         return BlogResource::make($blog);
     }
 
@@ -67,6 +74,15 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+        if (! Gate::inspect('delete', $blog)->allowed()) {
+            abort(403);
+        }
+        $blog->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Blog deleted successfully.',
+            'data' => $blog,
+        ], Response::HTTP_ACCEPTED);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends Factory<Post>
  */
 class PostFactory extends Factory
 {
@@ -19,6 +20,8 @@ class PostFactory extends Factory
         return [
             'content' => $this->faker->paragraphs(6, true),
             'expert' => $this->faker->paragraph,
+            'title' => $this->faker->sentence,
+            'slug' => $this->faker->slug,
         ];
     }
 }
