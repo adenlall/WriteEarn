@@ -45,7 +45,7 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
 
     - name: Run Database Migrations
-      run: php artisan migrate --force
+      run: php artisan migrate --force --seed
 
     - name: Run Tests
       run: php artisan test
