@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend  # All commands will run in backend directory
+        working-directory: ./back
 
     steps:
     - name: Checkout code
@@ -46,11 +46,11 @@ jobs:
     - name: Run migrations
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: /home/runner/work/WriteEarn/WriteEarn/backend/database/database.sqlite
+        DB_DATABASE: /home/runner/work/WriteEarn/WriteEarn/back/database/database.sqlite
       run: php artisan migrate --force
 
     - name: Run tests
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: /home/runner/work/WriteEarn/WriteEarn/backend/database/database.sqlite
+        DB_DATABASE: /home/runner/work/WriteEarn/WriteEarn/back/database/database.sqlite
       run: php artisan test
