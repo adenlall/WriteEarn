@@ -26,11 +26,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(StoreUserRequest $request) {}
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
@@ -46,6 +41,7 @@ class UserController extends Controller
 
         $user['password'] = Hash::make($user['password']);
         $created = User::create($user);
+        $created->refresh();
 
         return response()->json([
             'success' => true,
