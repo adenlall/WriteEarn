@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('coupon')->nullable();
             $table->boolean('public')->default('true');
-            $table->unsignedBigInteger('plan_id');
-            $table->foreign('plan_id')
-                  ->references('id')
-                  ->on('subscription_plans')
-                  ->onDelete('cascade');
+            $table->unsignedBigInteger('subscription_plan_id');
+            $table->foreign('subscription_plan_id')
+                ->references('id')
+                ->on('subscription_plans')
+                ->onDelete('cascade');
             $table->decimal('discount', 5, 2);
             $table->dateTime('start_date');
             $table->dateTime('end_date');

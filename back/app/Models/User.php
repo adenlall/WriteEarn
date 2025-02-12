@@ -45,6 +45,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function readerSubscriptions(): HasMany
+    {
+        return $this->hasMany(ReaderSubscription::class);
+    }
+
     public function blogs(): HasMany
     {
         return $this->hasMany(Blog::class);

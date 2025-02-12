@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\ReaderSubscription;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ReaderSubscriptionPolicy
 {
@@ -21,7 +20,7 @@ class ReaderSubscriptionPolicy
      */
     public function view(User $user, ReaderSubscription $readerSubscription): bool
     {
-        return true;
+        return $user->admin() || ($user->id === $readerSubscription->user_id);
     }
 
     /**
@@ -29,7 +28,7 @@ class ReaderSubscriptionPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->admin() || $user->reader();
     }
 
     /**

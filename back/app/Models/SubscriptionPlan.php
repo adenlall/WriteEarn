@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+use Database\Factories\SubscriptionPlanFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SubscriptionPlan extends Model
 {
-    /** @use HasFactory<\Database\Factories\SubscriptionPlanFactory> */
+    /** @use HasFactory<SubscriptionPlanFactory> */
     use HasFactory;
 
-    public function offers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    protected $fillable = [
+        'blog_id', 'price', 'duration', 'discount', 'is_active',
+    ];
+
+    public function blog(): BelongsTo
     {
-        return $this->hasMany(Offer::class);
+        return $this->BelongsTo(Blog::class);
     }
 }

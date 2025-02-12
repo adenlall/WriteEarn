@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('reader_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reader_id');
-            $table->unsignedBigInteger('plan_id');
-            $table->foreign('reader_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
-            $table->foreign('plan_id')
-                  ->references('id')
-                  ->on('subscription_plans')
-                  ->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('subscription_plan_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('subscription_plan_id')
+                ->references('id')
+                ->on('subscription_plans')
+                ->onDelete('cascade');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->enum('status', ['active', 'canceled'])->default('active');

@@ -4,32 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReaderSubscriptionRequest;
 use App\Http\Requests\UpdateReaderSubscriptionRequest;
+use App\Http\Resources\ReaderSubscriptionResource;
 use App\Models\ReaderSubscription;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class ReaderSubscriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return ReaderSubscriptionResource::collection($user->subscriptions);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReaderSubscriptionRequest $request)
+    public function store(StoreReaderSubscriptionRequest $request, User $user)
     {
-        //
+        // TODO: add cannot subscribe to the same blog multiple times
+        if (! Gate::inspect('create', ReaderSubscription::class)->allowed()) {
+            abort(403);
+        }
+        $readerSubscription = $user->readerSubscriptions()->create($request->validated());
+
+        return ReaderSubscriptionResource::make($readerSubscription);
     }
 
     /**
@@ -37,15 +38,11 @@ class ReaderSubscriptionController extends Controller
      */
     public function show(ReaderSubscription $readerSubscription)
     {
-        //
-    }
+        if (! Gate::inspect('view', $readerSubscription)->allowed()) {
+            abort(403);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ReaderSubscription $readerSubscription)
-    {
-        //
+        return ReaderSubscriptionResource::make($readerSubscription);
     }
 
     /**

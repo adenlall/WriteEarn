@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('subscription_id');
-            $table->foreign('subscription_id')
-                  ->references('id')
-                  ->on('reader_subscriptions')
-                  ->onDelete('cascade');
+            $table->unsignedBigInteger('reader_subscription_id');
+            $table->foreign('reader_subscription_id')
+                ->references('id')
+                ->on('reader_subscriptions')
+                ->onDelete('cascade');
             $table->decimal('amount', 8, 2);
             $table->decimal('platform_fee', 8, 2);
             $table->decimal('publisher_earning', 8, 2);

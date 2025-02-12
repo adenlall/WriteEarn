@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniquePlanDurationPerBlog;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreReaderSubscriptionRequest extends FormRequest
+class StoreSubscriptionPlanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +27,14 @@ class StoreReaderSubscriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date'],
-            'status' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
+            'duration' => [
+                'required',
+                'in:monthly,yearly,weekly',
+                new UniquePlanDurationPerBlog($this->blog->id, $this->subscription_plan?->id),
+            ],
+            'discount' => ['required', 'numeric'],
+            'is_active' => ['required', 'boolean'],
         ];
     }
 

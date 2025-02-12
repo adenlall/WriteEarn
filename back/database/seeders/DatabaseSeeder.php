@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'adenlall',
         ]);
         $publishers = User::factory()->publisher()->count(10)->create();
-        $readers = User::factory()->reader()->count(50)->create();
+        $readers = User::factory()->reader()->count(10)->create();
 
         User::factory()->admin()->count(5)->create();
 
@@ -52,18 +52,18 @@ class DatabaseSeeder extends Seeder
 
                     if (rand(0, 1)) {
                         Offer::factory()->create([
-                            'plan_id' => $plan->id,
+                            'subscription_plan_id' => $plan->id,
                         ]);
                     }
 
                     for ($i = 0; $i < 5; $i++) {
                         $reader = $readers->random();
                         $subscription = ReaderSubscription::factory()->create([
-                            'reader_id' => $reader->id,
-                            'plan_id' => $plan->id,
+                            'user_id' => $reader->id,
+                            'subscription_plan_id' => $plan->id,
                         ]);
                         Payment::factory()->create([
-                            'subscription_id' => $subscription->id,
+                            'reader_subscription_id' => $subscription->id,
                         ]);
                     }
 
