@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\BlogResource;
+use App\Http\Resources\UserResource;
 use App\Models\Blog;
 use App\Models\User;
 
@@ -65,15 +66,24 @@ describe('blog', function () {
             'slug' => Faker\Factory::create()->slug,
             'description' => Faker\Factory::create()->paragraph,
         ]);
-        $response = $this->actingAs($this->publisher)->put('/api/blogs/'.$blog->id,
-            data: [
-                'title' => Faker\Factory::create()->sentence,
-                'slug' => Faker\Factory::create()->slug,
-                'description' => Faker\Factory::create()->paragraph,
-            ],
-        );
+        $updateData = [
+            'title' => Faker\Factory::create()->sentence,
+            'slug' => Faker\Factory::create()->slug,
+            'description' => Faker\Factory::create()->paragraph,
+        ];
+        $response = $this->actingAs($this->publisher)->put('/api/blogs/'.$blog->id, $updateData);
         $response->assertStatus(200);
-        $response->assertJson(BlogResource::make(Blog::find($blog->id))->response()->getData(true));
+        $response->assertJson(
+            array_replace_recursive(
+                BlogResource::make(Blog::make($updateData))->response()->getData(true), [
+                    'data' => [
+                        'id' => $blog->id,
+                        'user_id' => $blog->user_id,
+                        'user' => UserResource::make(User::find($blog->user_id))->response()->getData(true)['data'],
+                    ],
+                ]
+            )
+        );
     });
 
 });
