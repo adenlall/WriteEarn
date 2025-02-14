@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Blog;
-use App\Models\User;
-use App\Policies\BlogPolicy;
-use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        DB::statement('PRAGMA foreign_keys = ON;');
+        DB::statement('PRAGMA foreign_keys = OFF;');
     }
 }

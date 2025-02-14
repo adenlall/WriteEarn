@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('coupon')->nullable();
+            $table->string('coupon');
             $table->boolean('public')->default('true');
             $table->unsignedBigInteger('subscription_plan_id');
             $table->foreign('subscription_plan_id')
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('discount', 5, 2);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->unique(['subscription_plan_id', 'coupon']);
             $table->timestamps();
         });
     }

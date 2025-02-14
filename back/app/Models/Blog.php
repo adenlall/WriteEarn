@@ -34,4 +34,9 @@ class Blog extends Model
     {
         return $this->hasMany(SubscriptionPlan::class);
     }
+
+    public function readerSubscriptions()
+    {
+        return $this->hasMany(ReaderSubscription::class);
+    }
 }

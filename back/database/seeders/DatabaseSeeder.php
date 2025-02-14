@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
         Blog::factory()
             ->hasPosts()
             ->has(User::factory()->publisher())
-            ->has(SubscriptionPlan::factory()->count(3))
-            ->count(10)
+            ->has(SubscriptionPlan::factory()->count(2)->hasOffers())
+            ->count(4)
             ->create();
 
-        ReaderSubscription::factory()->count(50)->create();
+        ReaderSubscription::factory()->create();
     }
 }

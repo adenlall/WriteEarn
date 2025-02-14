@@ -2,9 +2,10 @@
 
 namespace App\Policies;
 
+use App\Models\Blog;
 use App\Models\Offer;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class OfferPolicy
 {
@@ -19,7 +20,7 @@ class OfferPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Offer $offer): bool
+    public function view(User $user, Offer $offer, SubscriptionPlan $subscriptionPlan): bool
     {
         return true;
     }
@@ -27,25 +28,25 @@ class OfferPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Blog $blog, SubscriptionPlan $subscriptionPlan): bool
     {
-        return true;
+        return $user->admin() || ($user->publisher() && $user->id === $blog->user_id && $blog->id === $subscriptionPlan->blog_id);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Offer $offer): bool
+    public function update(User $user, Offer $offer, Blog $blog, SubscriptionPlan $subscriptionPlan): bool
     {
-        return true;
+        return $user->admin() || ($user->publisher() && $offer->subscription_plan_id === $subscriptionPlan->id && $user->id === $blog->user_id && $blog->id === $subscriptionPlan->blog_id);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Offer $offer): bool
+    public function delete(User $user, Offer $offer, Blog $blog, SubscriptionPlan $subscriptionPlan): bool
     {
-        return true;
+        return $user->admin() || ($user->publisher() && $offer->subscription_plan_id === $subscriptionPlan->id && $user->id === $blog->user_id && $blog->id === $subscriptionPlan->blog_id);
     }
 
     /**

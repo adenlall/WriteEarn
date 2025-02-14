@@ -22,9 +22,12 @@ class ReaderSubscriptionFactory extends Factory
         $start_date = $this->faker->dateTimeBetween('-1 year', 'now');
         $end_date = (clone $start_date)->modify('+30 days');
 
+        $plan = SubscriptionPlan::factory()->create();
+
         return [
             'user_id' => User::factory()->reader(),
-            'subscription_plan_id' => SubscriptionPlan::factory(),
+            'subscription_plan_id' => $plan->id,
+            'blog_id' => $plan->blog->id,
             'start_date' => $start_date,
             'end_date' => $end_date,
             'status' => $this->faker->randomElement(['active', 'canceled']),

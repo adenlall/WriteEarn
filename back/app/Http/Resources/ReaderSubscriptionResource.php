@@ -14,6 +14,14 @@ class ReaderSubscriptionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'blog_id' => $this->subscriptionPlan->blog_id,
+            'subscription_plan_id' => $this->subscription_plan_id,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'status' => $this->status,
+        ];
     }
 }

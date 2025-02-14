@@ -2,18 +2,18 @@
 
 namespace App\Rules;
 
-use App\Models\ReaderSubscription;
+use App\Models\Offer;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-class UniqueSubscriptionPerBlog implements ValidationRule
+class UniqueOfferPerPlan implements ValidationRule
 {
-    private $user_id;
+    private int $subscription_plan_id;
 
-    public function __construct($user)
+    public function __construct($subscription_plan)
     {
-        $this->user_id = $user->id;
+        $this->subscription_plan_id = $subscription_plan->id;
     }
 
     /**
@@ -23,11 +23,11 @@ class UniqueSubscriptionPerBlog implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $exists = ReaderSubscription::where('user_id', $this->user_id)
-            ->where('blog_id', $value)
+        $exists = Offer::where('subscription_plan_id', $this->subscription_plan_id)
+            ->where('coupon', $value)
             ->exists();
         if ($exists) {
-            $fail('A subscription with this blog and plan already exists.');
+            $fail('This subscription plan with this coupon already exists.');
         }
     }
 }

@@ -1,7 +1,21 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Models\ReaderSubscription;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    dd(ReaderSubscription::create([
+        'user_id' => 1,
+        'subscription_plan_id' => 1,
+        'blog_id' => 1,
+        'status' => 'active',
+        'start_date' => now(),
+        'end_date' => now()->addDays(30),
+    ]));
+
+    return view('welcome');
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
@@ -12,11 +26,19 @@ Route::middleware('auth:sanctum')->group(function () {
         ->scoped([
             'posts' => 'user_id',
         ]);
+
     Route::apiResource('blogs.plans', App\Http\Controllers\SubscriptionPlanController::class)
         ->parameters(['plans' => 'subscription_plan'])
         ->scoped([
             'plans' => 'blog_id',
         ]);
+
+    Route::apiResource('blogs.plans.offers', App\Http\Controllers\OfferController::class)
+        ->parameters(['plans' => 'subscription_plan'])
+        ->scoped([
+            'plans' => 'blog_id',
+        ]);
+
     Route::apiResource('users.subs', App\Http\Controllers\ReaderSubscriptionController::class)
         ->parameters(['subs' => 'reader_subscription'])
         ->scoped([

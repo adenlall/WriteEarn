@@ -38,10 +38,10 @@ describe('register', function () {
 
     it('return success response', function () {
         $userData = [
-            'email' => Factory::create()->email,
-            'password' => Factory::create()->password,
+            'email' => Factory::create()->userName.'.'.Factory::create()->companyEmail,
+            'password' => Factory::create()->password(9),
             'name' => Factory::create()->name,
-            'username' => Factory::create()->userName,
+            'username' => Factory::create()->userName.'.'.Factory::create()->userName,
             'role' => 'reader',
         ];
         $response = $this->post('/api/register', $userData);

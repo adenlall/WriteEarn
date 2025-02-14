@@ -16,7 +16,7 @@ class ReaderSubscriptionController extends Controller
      */
     public function index(User $user)
     {
-        return ReaderSubscriptionResource::collection($user->subscriptions);
+        return ReaderSubscriptionResource::collection($user->readerSubscriptions);
     }
 
     /**
@@ -24,7 +24,6 @@ class ReaderSubscriptionController extends Controller
      */
     public function store(StoreReaderSubscriptionRequest $request, User $user)
     {
-        // TODO: add cannot subscribe to the same blog multiple times
         if (! Gate::inspect('create', ReaderSubscription::class)->allowed()) {
             abort(403);
         }
@@ -36,7 +35,7 @@ class ReaderSubscriptionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ReaderSubscription $readerSubscription)
+    public function show(User $user, ReaderSubscription $readerSubscription)
     {
         if (! Gate::inspect('view', $readerSubscription)->allowed()) {
             abort(403);

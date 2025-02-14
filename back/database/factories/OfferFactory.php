@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Offer;
-use App\Models\SubscriptionPlan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +22,6 @@ class OfferFactory extends Factory
 
         return [
             'coupon' => $this->faker->lexify(),
-            'subscription_plan_id' => SubscriptionPlan::factory(),
             'discount' => $this->faker->randomFloat(2, 5, 50),
             'start_date' => $start_date,
             'end_date' => $end_date,

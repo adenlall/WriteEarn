@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueSubscriptionPerBlog;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,9 +27,11 @@ class StoreReaderSubscriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'blog_id' => ['required', 'integer', 'exists:blogs,id', new UniqueSubscriptionPerBlog($this->route('user'))],
+            'subscription_plan_id' => ['required', 'integer', 'exists:subscription_plans,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
-            'status' => ['required', 'string'],
+            'status' => ['nullable', 'string', 'in:holding,active,canceled'],
         ];
     }
 
