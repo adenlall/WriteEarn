@@ -23,7 +23,7 @@ class StoreBlogRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && (auth()->user()->role === 'publisher' || auth()->user()->role === 'admin');
+        return auth()->check() && (auth()->user()->publisher() || auth()->user()->admin());
     }
 
     /**

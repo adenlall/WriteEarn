@@ -3,6 +3,7 @@
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Faker\Factory;
+use Illuminate\Support\Facades\Hash;
 
 describe('register', function () {
     it('return general validation errors', function () {
