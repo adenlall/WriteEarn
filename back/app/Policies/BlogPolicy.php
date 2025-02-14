@@ -10,7 +10,7 @@ class BlogPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return true;
     }
@@ -18,7 +18,7 @@ class BlogPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Blog $blog): bool
+    public function view(): bool
     {
         return true;
     }
@@ -50,7 +50,7 @@ class BlogPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Blog $blog): bool
+    public function restore(): bool
     {
         return true;
     }
@@ -58,7 +58,7 @@ class BlogPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Blog $blog): bool
+    public function forceDelete(): bool
     {
         return true;
     }

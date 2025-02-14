@@ -1,8 +1,11 @@
-<?php
+<?php /** @noinspection PhpInconsistentReturnPointsInspection */
 
+use App\Http\Middleware\JsonRequestHeader;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,22 +15,22 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(\App\Http\Middleware\JsonRequestHeader::class);
+        $middleware->append(JsonRequestHeader::class);
         $middleware->priority([
-            \App\Http\Middleware\JsonRequestHeader::class,
+            JsonRequestHeader::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(
-            using: function (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $e) {
+            using: function (HttpExceptionInterface $e) {
                 if (config('app.debug') !== true) {
                     if ($e->getStatusCode() === 403) {
-                        return new \Illuminate\Http\JsonResponse([
+                        return new JsonResponse([
                             'success' => false,
                             'message' => 'You don\'t have permission.',
                         ], 403);
                     }
-                    return new \Illuminate\Http\JsonResponse([
+                    return new JsonResponse([
                         'success' => false,
                         'message' => 'Internal Error',
                         'data' => null,

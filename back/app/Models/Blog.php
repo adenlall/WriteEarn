@@ -35,7 +35,7 @@ class Blog extends Model
         return $this->hasMany(SubscriptionPlan::class);
     }
 
-    public function readerSubscriptions()
+    public function readerSubscriptions(): HasMany
     {
         return $this->hasMany(ReaderSubscription::class);
     }

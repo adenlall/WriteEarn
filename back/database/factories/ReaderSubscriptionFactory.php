@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocMissingThrowsInspection */
 
 namespace Database\Factories;
 
@@ -19,7 +19,8 @@ class ReaderSubscriptionFactory extends Factory
      */
     public function definition(): array
     {
-        $start_date = $this->faker->dateTimeBetween('-1 year', 'now');
+        $start_date = $this->faker->dateTimeBetween('-1 year');
+        /** @noinspection PhpUnhandledExceptionInspection */
         $end_date = (clone $start_date)->modify('+30 days');
 
         $plan = SubscriptionPlan::factory()->create();

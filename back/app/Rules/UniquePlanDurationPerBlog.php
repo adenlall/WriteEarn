@@ -9,9 +9,9 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 class UniquePlanDurationPerBlog implements ValidationRule
 {
-    private $blog_id;
+    private int $blog_id;
 
-    private $subscription_plan_id;
+    private int $subscription_plan_id;
 
     public function __construct($blog_id, $subscription_plan_id = null)
     {

@@ -18,9 +18,9 @@ return new class extends Migration
                   ->references('id')
                   ->on('blogs')
                   ->onDelete('cascade');
-            $table->decimal('price', 8, 2);
+            $table->decimal('price');
             $table->enum('duration', ['monthly', 'yearly', 'weekly'])->default('monthly');
-            $table->decimal('discount', 5, 2)->nullable();
+            $table->decimal('discount', 5)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

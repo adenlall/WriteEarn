@@ -8,6 +8,8 @@ use App\Http\Resources\OfferResource;
 use App\Models\Blog;
 use App\Models\Offer;
 use App\Models\SubscriptionPlan;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +18,7 @@ class OfferController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Blog $blog, SubscriptionPlan $subscriptionPlan)
+    public function index(SubscriptionPlan $subscriptionPlan): AnonymousResourceCollection
     {
         return OfferResource::collection($subscriptionPlan->offers);
     }
@@ -37,7 +39,7 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Blog $blog, SubscriptionPlan $subscriptionPlan, Offer $offer)
+    public function show(SubscriptionPlan $subscriptionPlan, Offer $offer)
     {
         if (! Gate::inspect('view', [$offer, $subscriptionPlan])->allowed()) {
             abort(403);
@@ -62,7 +64,7 @@ class OfferController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog, SubscriptionPlan $subscriptionPlan, Offer $offer)
+    public function destroy(Blog $blog, SubscriptionPlan $subscriptionPlan, Offer $offer): JsonResponse
     {
         if (! Gate::inspect('delete', [$offer, $blog, $subscriptionPlan])->allowed()) {
             abort(403);

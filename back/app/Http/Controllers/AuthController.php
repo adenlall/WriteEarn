@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -17,7 +16,7 @@ class AuthController extends Controller
     /**
      * Log in a user and return a token.
      */
-    public function login(LoginUserRequest $request)
+    public function login(LoginUserRequest $request): JsonResponse
     {
         $request->validated();
 
@@ -43,10 +42,8 @@ class AuthController extends Controller
     /**
      * Log out the user and revoke the token.
      */
-    public function logout(Request $request)
+    public function logout(): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
-
         return response()->json([
             'message' => 'Logged out successfully.',
         ]);

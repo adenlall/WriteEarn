@@ -7,6 +7,8 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Blog;
 use App\Models\Post;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +17,7 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Blog $blog)
+    public function index(Blog $blog): AnonymousResourceCollection
     {
         return PostResource::collection($blog->posts);
     }
@@ -61,7 +63,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog, Post $post)
+    public function destroy(Blog $blog, Post $post): JsonResponse
     {
         if (! Gate::inspect('delete', [$post, $blog])->allowed()) {
             abort(403);

@@ -20,7 +20,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('subscription_plans')
                 ->onDelete('cascade');
-            $table->decimal('discount', 5, 2);
+            $table->decimal('discount', 5);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->unique(['subscription_plan_id', 'coupon']);

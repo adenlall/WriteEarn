@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateSubscriptionPlanRequest;
 use App\Http\Resources\SubscriptionPlanResource;
 use App\Models\Blog;
 use App\Models\SubscriptionPlan;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +17,7 @@ class SubscriptionPlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Blog $blog)
+    public function index(Blog $blog): AnonymousResourceCollection
     {
         return SubscriptionPlanResource::collection($blog->subscriptionPlans);
     }
@@ -61,7 +63,7 @@ class SubscriptionPlanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog, SubscriptionPlan $subscriptionPlan)
+    public function destroy(Blog $blog, SubscriptionPlan $subscriptionPlan): JsonResponse
     {
         if (! Gate::inspect('delete', [$subscriptionPlan, $blog])->allowed()) {
             abort(403);

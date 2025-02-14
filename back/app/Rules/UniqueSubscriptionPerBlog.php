@@ -9,7 +9,7 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 class UniqueSubscriptionPerBlog implements ValidationRule
 {
-    private $user_id;
+    private int $user_id;
 
     public function __construct($user)
     {

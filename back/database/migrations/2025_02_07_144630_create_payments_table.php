@@ -18,9 +18,9 @@ return new class extends Migration
                 ->references('id')
                 ->on('reader_subscriptions')
                 ->onDelete('cascade');
-            $table->decimal('amount', 8, 2);
-            $table->decimal('platform_fee', 8, 2);
-            $table->decimal('publisher_earning', 8, 2);
+            $table->decimal('amount');
+            $table->decimal('platform_fee');
+            $table->decimal('publisher_earning');
             $table->enum('status', ['success', 'failed'])->default('success');
             $table->timestamps();
         });

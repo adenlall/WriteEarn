@@ -12,7 +12,7 @@ class OfferPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return true;
     }
@@ -20,7 +20,7 @@ class OfferPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Offer $offer, SubscriptionPlan $subscriptionPlan): bool
+    public function view(): bool
     {
         return true;
     }
@@ -52,7 +52,7 @@ class OfferPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Offer $offer): bool
+    public function restore(): bool
     {
         return true;
     }
@@ -60,7 +60,7 @@ class OfferPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Offer $offer): bool
+    public function forceDelete(): bool
     {
         return true;
     }

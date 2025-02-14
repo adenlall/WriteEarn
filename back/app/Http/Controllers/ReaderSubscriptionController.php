@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateReaderSubscriptionRequest;
 use App\Http\Resources\ReaderSubscriptionResource;
 use App\Models\ReaderSubscription;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 
 class ReaderSubscriptionController extends Controller
@@ -14,7 +15,7 @@ class ReaderSubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(User $user)
+    public function index(User $user): AnonymousResourceCollection
     {
         return ReaderSubscriptionResource::collection($user->readerSubscriptions);
     }
@@ -35,7 +36,7 @@ class ReaderSubscriptionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user, ReaderSubscription $readerSubscription)
+    public function show(ReaderSubscription $readerSubscription)
     {
         if (! Gate::inspect('view', $readerSubscription)->allowed()) {
             abort(403);

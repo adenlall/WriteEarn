@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocMissingThrowsInspection */
 
 namespace Database\Factories;
 
@@ -17,7 +17,8 @@ class OfferFactory extends Factory
      */
     public function definition(): array
     {
-        $start_date = $this->faker->dateTimeBetween('-1 month', 'now');
+        $start_date = $this->faker->dateTimeBetween('-1 month');
+        /** @noinspection PhpUnhandledExceptionInspection */
         $end_date = (clone $start_date)->modify('+'.$this->faker->numberBetween(1, 30).' days');
 
         return [
