@@ -1,21 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Models\ReaderSubscription;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    dd(ReaderSubscription::create([
-        'user_id' => 1,
-        'subscription_plan_id' => 1,
-        'blog_id' => 1,
-        'status' => 'active',
-        'start_date' => now(),
-        'end_date' => now()->addDays(30),
-    ]));
-
-    return view('welcome');
-});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
