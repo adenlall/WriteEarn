@@ -32,7 +32,7 @@ class BlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBlogRequest $request)
+    public function store(StoreBlogRequest $request):BlogResource
     {
         if (! Gate::inspect('create', Blog::class)->allowed()) {
             abort(403);
@@ -61,7 +61,7 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBlogRequest $request, Blog $blog)
+    public function update(UpdateBlogRequest $request, Blog $blog):BlogResource
     {
         if (! Gate::inspect('update', $blog)->allowed()) {
             abort(403);

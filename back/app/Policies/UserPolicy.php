@@ -11,7 +11,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return auth()->user()->id === $user->id;
+        return auth()->user()?->id === $user->id;
     }
 
     /**

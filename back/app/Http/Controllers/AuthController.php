@@ -52,7 +52,7 @@ class AuthController extends Controller
     /**
      * Display current authenticated User.
      */
-    public function user(Request $request)
+    public function user(Request $request):UserResource
     {
         return UserResource::make($request->user());
     }
